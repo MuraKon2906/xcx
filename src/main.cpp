@@ -1,13 +1,9 @@
-#include <cstring>
-#include <filesystem>
-#include <iostream>
+#include "iostream"
+#include <xcx/setup.h>
 
 int main(int argc, char *argv[]) {
-  if (std::strcmp(argv[1], "new") == 0) {
-    std::cout << "Creating new project" << std::endl;
-  } else {
-    std::cout << "Unable to determine the command :" << std::endl;
+  if (argc > 1) {
+    init_new_prj(argv[1]);
   }
-
   return 0;
 }
