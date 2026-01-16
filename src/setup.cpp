@@ -13,8 +13,6 @@ BasicProject::BasicProject(std::string prjname) : prj_name(prjname) {
   _write_to_files();
 }
 
-// -------- Private Method Definitions --------
-
 void BasicProject::_create_prj_src(std::string name) {
   std::cout << "Creating project source for: " << name << "\n";
   try {
