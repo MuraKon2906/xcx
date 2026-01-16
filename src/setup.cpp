@@ -1,6 +1,9 @@
 #include "xcx/setup.hpp"
+#include <filesystem>
 #include <iostream>
 #include <string>
+
+namespace fs = std::filesystem;
 
 // Constructor
 BasicProject::BasicProject(std::string prjname) : prj_name(prjname) {
@@ -14,6 +17,18 @@ BasicProject::BasicProject(std::string prjname) : prj_name(prjname) {
 
 void BasicProject::_create_prj_src(std::string name) {
   std::cout << "Creating project source for: " << name << "\n";
+  try {
+    if (fs::create_directories(name)) {
+      std::cout << "Project environment initialized : " << "\n";
+    } else {
+      std::cout << "Failed to initialize the project environment" << "\n";
+      throw 0;
+    }
+
+  } catch (int status) {
+
+    std::cout << "Creation of project : " << status << std::endl;
+  }
 }
 
 void BasicProject::_create_sub_folders() {
