@@ -1,9 +1,9 @@
 #include "iostream"
-#include <xcx/setup.h>
+#include "xcx/setup.hpp"
 
 int main(int argc, char *argv[]) {
   if (argc > 1) {
-    init_new_prj(argv[1]);
+    auto project = BasicProject(argv[1]);
   }
   return 0;
 }
