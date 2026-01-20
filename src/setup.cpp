@@ -21,7 +21,7 @@ BasicProject::BasicProject(std::string prjname) : prj_name(prjname) {
   _write_to_main();
   _write_to_core();
   _write_to_core_hpp();
-  // _write_to_cmake();
+  _write_to_cmake();
 }
 
 void BasicProject::_create_prj_src(std::string name) {
@@ -87,5 +87,29 @@ void BasicProject::_write_to_core_hpp() {
   core_hpp << core_hpp_content;
   core_hpp.close();
 }
-// void BasicProject::_write_to_cmake() { std::cout << "\n writing to cmake\n";
-// }
+void BasicProject::_write_to_cmake() {
+
+  fs::path prj_path = prj_name;
+  std::string cmake_content = "cmake_minimum_required(VERSION 3.20)\n\n"
+                              "project(" +
+                              prj_name +
+                              " VERSION 0.1 LANGUAGES CXX)\n\n"
+                              "set(CMAKE_CXX_STANDARD 17)\n"
+                              "set(CMAKE_CXX_STANDARD_REQUIRED ON)\n"
+                              "set(CMAKE_EXPORT_COMPILE_COMMANDS ON)\n\n"
+                              "add_executable(${PROJECT_NAME}\n"
+                              "    src/main.cpp\n"
+                              "    src/core.cpp\n"
+                              ")\n\n"
+                              "target_include_directories(${PROJECT_NAME}\n"
+                              "    PRIVATE\n"
+                              "        ${CMAKE_SOURCE_DIR}/include\n"
+                              ")\n\n"
+                              "target_compile_options(${PROJECT_NAME}\n"
+                              "    PRIVATE\n"
+                              "        -Wall -Wextra -Wpedantic\n"
+                              ")\n";
+  std::ofstream cmaketxt(prj_path / "CMakeLists.txt");
+  cmaketxt << cmake_content;
+  cmaketxt.close();
+}
