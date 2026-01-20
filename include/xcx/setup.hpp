@@ -8,8 +8,6 @@ private:
   void _create_sub_folders(); // Creates sub folders like "include/" , "src/" ,
                               // "docs" .. etc;
   //
-  void _create_files(); // handles file creation like "main.cpp" , "lib.cpp" ,
-                        // "lib.hpp" .. etc
   // Writes foundational working code to the
   // following files : main , core and cmake
   void _write_to_main();
