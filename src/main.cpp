@@ -14,10 +14,14 @@ int main(int argc, char *argv[]) {
     std::cout << "XCX : command not provided " << std::endl;
     std::cout << "Run 'xcx --help' to view avaliable commands";
     return 0;
-  } else {
-    std::string inp = argv[1];
-    cmd = cmd_map.at(inp);
   }
+
+  auto cmd_it = cmd_map.find(argv[1]);
+  if (cmd_it == cmd_map.end()) {
+    std::cout << "XCX : command not found : ";
+    return 0;
+  }
+  cmd = cmd_it->second;
 
   switch (cmd) {
   case 1: {
