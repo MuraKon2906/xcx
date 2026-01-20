@@ -19,7 +19,10 @@ BasicProject::BasicProject(std::string prjname) : prj_name(prjname) {
   _create_prj_src(prj_name);
   _create_sub_folders();
   _create_files();
-  // _write_to_files();
+  _write_to_main();
+  // _write_to_core();
+  // _write_to_core_hpp();
+  // _write_to_cmake();
 }
 
 void BasicProject::_create_prj_src(std::string name) {
@@ -49,13 +52,36 @@ void BasicProject::_create_sub_folders() {
 }
 //
 void BasicProject::_create_files() {
-  std::vector<fs::path> src_files = {"main.cpp", "core.cpp"};
+
   fs::path prj_path = prj_name;
+  // create CMakeLists.txt
+  std::ofstream _(prj_path / "CMakeLists.txt");
+  std::vector<fs::path> src_files = {"main.cpp", "core.cpp"};
+
   fs ::path src_folder = "src";
   for (auto &file : src_files) {
     fs::path comp_main_path = prj_path / src_folder / file;
-    std::ofstream main(comp_main_path);
+    std::ofstream _(comp_main_path);
   }
 }
-//
-// void BasicProject::_write_to_files() { std::cout << "Writing to files\n"; }
+
+void BasicProject::_write_to_main() {
+  fs::path prj_path = prj_name;
+
+  std::string main_content = "#include <iostream>\n\n"
+                             "int main() {\n"
+                             "    std::cout << \"Hello from " +
+                             prj_name +
+                             "\" << std::endl;\n"
+                             "    return 0;\n"
+                             "}\n";
+
+  std::ofstream main_cpp(prj_path / "src/main.cpp");
+  main_cpp << main_content;
+}
+// void BasicProject::_write_to_core() { std::cout << "\n writing to core\n"; }
+// void BasicProject::_write_to_core_hpp() {
+//   std::cout << "\n writing to core_hpp\n";
+// }
+// void BasicProject::_write_to_cmake() { std::cout << "\n writing to cmake\n";
+// }

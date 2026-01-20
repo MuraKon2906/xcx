@@ -8,10 +8,14 @@ private:
   void _create_sub_folders(); // Creates sub folders like "include/" , "src/" ,
                               // "docs" .. etc;
   //
-  void _create_files();   // handles file creation like "main.cpp" , "lib.cpp" ,
-                          // "lib.hpp" .. etc
-  void _write_to_files(); // writes content to files to initialize the projects
-                          // like "CMakeLists.txt" and "main.cpp"
+  void _create_files(); // handles file creation like "main.cpp" , "lib.cpp" ,
+                        // "lib.hpp" .. etc
+  // Writes foundational working code to the
+  // following files : main , core and cmake
+  void _write_to_main();
+  void _write_to_core();
+  void _write_to_core_hpp();
+  void _write_to_cmake();
 
 public:
   BasicProject(std::string prjname);
