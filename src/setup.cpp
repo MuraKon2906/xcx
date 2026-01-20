@@ -20,7 +20,7 @@ BasicProject::BasicProject(std::string prjname) : prj_name(prjname) {
   _create_sub_folders();
   _write_to_main();
   _write_to_core();
-  // _write_to_core_hpp();
+  _write_to_core_hpp();
   // _write_to_cmake();
 }
 
@@ -77,8 +77,15 @@ void BasicProject::_write_to_core() {
   core_cpp << core_content;
   core_cpp.close();
 }
-// void BasicProject::_write_to_core_hpp() {
-//   std::cout << "\n writing to core_hpp\n";
-// }
+void BasicProject::_write_to_core_hpp() {
+  std::string core_hpp_content = "#pragma once\n\n"
+                                 "void hello_from_core();\n";
+
+  fs::path prj_path = prj_name;
+  std::ofstream core_hpp(prj_path / "include/core.hpp");
+
+  core_hpp << core_hpp_content;
+  core_hpp.close();
+}
 // void BasicProject::_write_to_cmake() { std::cout << "\n writing to cmake\n";
 // }
