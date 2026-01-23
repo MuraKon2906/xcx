@@ -20,8 +20,6 @@ BasicProject::BasicProject(std::string prjname) : prj_name(prjname) {
   if (!_create_prj_src(prjname)) {
     return;
   }
-
-  _create_prj_src(prj_name);
   _create_sub_folders();
   _write_to_main();
   _write_to_core();
@@ -34,13 +32,11 @@ bool BasicProject::_create_prj_src(std::string name) {
     std::cout << "XCX :" << RED << "Project Already exists ! " << RESET;
 
     return false;
-    ;
   }
-  if (fs::create_directories(name)) {
-    std::cout << BLUE << "Creating project source for: " << RESET << CYAN
-              << name << RESET << "\n";
-    return true;
-  }
+
+  fs::create_directories(name);
+  std::cout << BLUE << "Creating project source for: " << RESET << CYAN << name
+            << RESET << "\n";
   return true;
 }
 
