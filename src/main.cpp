@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
   switch (cmd) {
   case 1: {
 
-    auto project = BasicProject(argv[2]);
+    BasicProject builder(argv[2]);
     break;
   }
   case 2:
