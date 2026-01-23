@@ -9,6 +9,7 @@
 #include "iostream"
 #include "xcx/setup.hpp"
 #include <unordered_map>
+#include <xcx/tools.hpp>
 
 enum Comms { init = 1, run = 2, build, add, help }; // commands avaliable
 int main(int argc, char *argv[]) {
@@ -43,7 +44,7 @@ int main(int argc, char *argv[]) {
     std::cout << "Running";
     break;
   case 3:
-    std::cout << "Building : ";
+    hello_from_build();
     break;
   case 4:
     std::cout << "add libs ";
