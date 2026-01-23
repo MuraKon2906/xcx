@@ -5,6 +5,7 @@
 #define YELLOW "\033[33m"
 #define BLUE "\033[32m"
 #define CYAN "\033[0;36m"
+#define RED "\x1b[31m"
 
 #include "xcx/setup.hpp"
 #include <filesystem>
@@ -16,6 +17,10 @@ namespace fs = std::filesystem;
 
 // Constructor
 BasicProject::BasicProject(std::string prjname) : prj_name(prjname) {
+  if (!_create_prj_src(prjname)) {
+    return;
+  }
+
   _create_prj_src(prj_name);
   _create_sub_folders();
   _write_to_main();
@@ -24,20 +29,19 @@ BasicProject::BasicProject(std::string prjname) : prj_name(prjname) {
   _write_to_cmake();
 }
 
-void BasicProject::_create_prj_src(std::string name) {
-  try {
-    if (fs::create_directories(name)) {
-      std::cout << BLUE << "Creating project source for: " << RESET << CYAN
-                << name << RESET << "\n";
-    } else {
-      std::cout << "Failed to initialize the project environment" << "\n";
-      throw 0;
-    }
+bool BasicProject::_create_prj_src(std::string name) {
+  if (fs::is_directory(name)) {
+    std::cout << "XCX :" << RED << "Project Already exists ! " << RESET;
 
-  } catch (int status) {
-
-    std::cout << "Creation of project : " << status << std::endl;
+    return false;
+    ;
   }
+  if (fs::create_directories(name)) {
+    std::cout << BLUE << "Creating project source for: " << RESET << CYAN
+              << name << RESET << "\n";
+    return true;
+  }
+  return true;
 }
 
 void BasicProject::_create_sub_folders() {

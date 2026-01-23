@@ -4,7 +4,7 @@
 class BasicProject {
 private:
   std::string prj_name;                   // private version of the prjname;
-  void _create_prj_src(std::string name); // Creates the Projects source folder
+  bool _create_prj_src(std::string name); // Creates the Projects source folder
   void _create_sub_folders(); // Creates sub folders like "include/" , "src/" ,
                               // "docs" .. etc;
   //
