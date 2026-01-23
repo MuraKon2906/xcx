@@ -42,7 +42,7 @@ void BasicProject::_create_prj_src(std::string name) {
 
 void BasicProject::_create_sub_folders() {
   std::cout << "Project Type : " << YELLOW << "Basic" << RESET;
-  std::vector<std::string> sub_folders = {"include", "src", "build", "docs"};
+  std::vector<std::string> sub_folders = {"include", "src", "docs"};
   fs::path src_path = fs::path(prj_name);
   for (auto dirs : sub_folders) {
     fs::path sub_folder_path = fs::path(src_path / dirs);
