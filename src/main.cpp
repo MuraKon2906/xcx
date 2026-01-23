@@ -26,11 +26,11 @@ int main(int argc, char *argv[]) {
     return 0;
   }
 
-  fs::path prj_parent = argv[2];
+  // fs::path prj_parent = argv[2];
   auto cmd_it = cmd_map.find(argv[1]);
   // To check if the cmd is in the map
   if (cmd_it == cmd_map.end()) {
-    std::cout << "XCX : command not found : ";
+    std::cout << "XCX : command " << RED << argv[1] << RESET << " not found !";
     return 0;
   }
   cmd = cmd_it->second;
@@ -45,7 +45,8 @@ int main(int argc, char *argv[]) {
     std::cout << "Running";
     break;
   case 3:
-    _check_build(prj_parent);
+    // _check_build(prj_parent);
+    std::cout << "Building now";
     break;
   case 4:
     std::cout << "add libs ";
