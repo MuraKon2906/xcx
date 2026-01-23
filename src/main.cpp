@@ -26,6 +26,7 @@ int main(int argc, char *argv[]) {
     return 0;
   }
 
+  fs::path prj_parent = argv[2];
   auto cmd_it = cmd_map.find(argv[1]);
   // To check if the cmd is in the map
   if (cmd_it == cmd_map.end()) {
@@ -44,7 +45,7 @@ int main(int argc, char *argv[]) {
     std::cout << "Running";
     break;
   case 3:
-    hello_from_build();
+    _check_build(prj_parent);
     break;
   case 4:
     std::cout << "add libs ";
