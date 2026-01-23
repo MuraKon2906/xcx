@@ -14,6 +14,7 @@ private:
   void _write_to_core();
   void _write_to_core_hpp();
   void _write_to_cmake();
+  void _wrtite_to_toml();
 
 public:
   BasicProject(std::string prjname);

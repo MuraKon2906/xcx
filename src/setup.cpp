@@ -25,6 +25,7 @@ BasicProject::BasicProject(std::string prjname) : prj_name(prjname) {
   _write_to_core();
   _write_to_core_hpp();
   _write_to_cmake();
+  _wrtite_to_toml();
 }
 
 bool BasicProject::_create_prj_src(std::string name) {
@@ -112,4 +113,22 @@ void BasicProject::_write_to_cmake() {
   std::ofstream cmaketxt(prj_path / "CMakeLists.txt");
   cmaketxt << cmake_content;
   cmaketxt.close();
+}
+void BasicProject::_wrtite_to_toml() {
+  fs::path prj_path = prj_name;
+  std::ofstream config_toml(prj_path / "Config.toml");
+
+  if (!config_toml) {
+    std::cerr << "Failed to create Config.toml\n";
+    return;
+  }
+
+  config_toml << "[project]\n"
+                 "name = \""
+              << prj_name
+              << "\"\n"
+                 "version = \"0.1.0\"\n"
+                 "edition = \"2026\"\n";
+
+  config_toml.close();
 }
