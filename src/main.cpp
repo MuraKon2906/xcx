@@ -43,9 +43,12 @@ int main(int argc, char *argv[]) {
   case 2:
     std::cout << "Running";
     break;
-  case 3:
-    std::cout << "Building now";
+  case 3: {
+
+    PrjBuild test;
     break;
+  }
+
   case 4:
     std::cout << "add libs ";
     break;
