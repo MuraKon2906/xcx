@@ -1,6 +1,7 @@
 #include <cstdlib>
 #include <filesystem>
 #include <iostream>
+#include <thread>
 #include <toml++/toml.h>
 #include <xcx/tools.hpp>
 
@@ -35,7 +36,7 @@ void PrjBuild::_cmake_setup() {
 }
 
 void PrjBuild::_create_binaries() {
-  std::cout << YELLOW << "\n➤ Building project binaries...\n" << RESET;
+  std::cout << YELLOW << "\n➤ Compiling project...\n" << RESET;
   std::system("cd build && cmake --build .");
 }
 
@@ -43,7 +44,12 @@ void PrjBuild::_create_binaries() {
 PrjRun::PrjRun() : PrjBuild() { _run_binaries(); }
 
 void PrjRun::_run_binaries() {
-  std::cout << "\n Running binaries ... \n";
+  std::cout << BOLD << BLUE << "\n➤ Running Target" << RESET;
+  for (int i = 0; i < 3; ++i) {
+    std::cout << "." << std::flush;
+    std::this_thread::sleep_for(std::chrono::milliseconds(250));
+  }
+  std::cout << "\n" << RESET;
   if (!std::filesystem::exists("Config.toml")) {
     std::cout << "XCX : Config.toml not found";
   }
