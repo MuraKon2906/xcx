@@ -1,6 +1,14 @@
 #pragma once
 
-#include <filesystem>
-namespace fs = std::filesystem;
-void hello_from_build();
-void _check_build(fs::path prj_path);
+// Builds the project and
+// stores the executable in build/
+#include <string>
+class PrjBuild {
+public:
+  PrjBuild();
+
+private:
+  bool _is_build();
+  std::string _read_toml_file();
+  void _create_binaries();
+};
