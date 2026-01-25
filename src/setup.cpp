@@ -1,4 +1,5 @@
 // color config
+#include <cstdlib>
 #include <fstream>
 #include <ostream>
 #define RESET "\033[0m"
@@ -26,6 +27,7 @@ BasicProject::BasicProject(std::string prjname) : prj_name(prjname) {
   _write_to_core_hpp();
   _write_to_cmake();
   _wrtite_to_toml();
+  _init_git();
 }
 
 bool BasicProject::_create_prj_src(std::string name) {
@@ -131,4 +133,10 @@ void BasicProject::_wrtite_to_toml() {
                  "edition = \"2026\"\n";
 
   config_toml.close();
+}
+
+void BasicProject::_init_git() {
+  std::string cmd =
+      "cd \"" + prj_name + "\" && git init -b main > /dev/null 2>&1";
+  std::system(cmd.c_str());
 }
