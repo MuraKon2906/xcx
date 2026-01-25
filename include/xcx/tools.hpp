@@ -1,13 +1,14 @@
 #pragma once
-
 // Builds the project and
 // stores the executable in build/
 class PrjBuild {
 public:
   PrjBuild();
 
-private:
+protected:
   bool _is_build();
+
+private:
   void _cmake_setup();     // generates the neccessary build systems files
   void _create_binaries(); // makes the build system
 };

@@ -41,10 +41,15 @@ void PrjBuild::_create_binaries() {
 }
 
 // PrjRun Implementation
-PrjRun::PrjRun() : PrjBuild() { _run_binaries(); }
+PrjRun::PrjRun() : PrjBuild() {
+  if (!_is_build()) {
+    return;
+  }
+  _run_binaries();
+}
 
 void PrjRun::_run_binaries() {
-  std::cout << BOLD << BLUE << "\n➤ Running Target" << RESET;
+  std::cout << BOLD << BLUE << "\n➤ Running target" << RESET;
   for (int i = 0; i < 3; ++i) {
     std::cout << "." << std::flush;
     std::this_thread::sleep_for(std::chrono::milliseconds(250));
