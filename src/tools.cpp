@@ -38,3 +38,17 @@ void PrjBuild::_create_binaries() {
   std::cout << YELLOW << "\n➤ Building project binaries...\n" << RESET;
   std::system("cd build && cmake --build .");
 }
+
+// PrjRun Implementation
+PrjRun::PrjRun() : PrjBuild() { _run_binaries(); }
+
+void PrjRun::_run_binaries() {
+  std::cout << "\n Running binaries ... \n";
+  if (!std::filesystem::exists("Config.toml")) {
+    std::cout << "XCX : Config.toml not found";
+  }
+  auto config = toml::parse_file("Config.toml");
+  std::string prj_name = config["project"]["name"].value_or("dumdum");
+  std::string cmd = "cd build && ./" + prj_name;
+  std::system(cmd.c_str());
+}

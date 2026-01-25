@@ -40,9 +40,11 @@ int main(int argc, char *argv[]) {
     BasicProject builder(argv[2]);
     break;
   }
-  case 2:
-    std::cout << "Running";
+  case 2: {
+    PrjRun run;
+
     break;
+  }
   case 3: {
 
     PrjBuild test;
