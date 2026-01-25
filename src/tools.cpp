@@ -2,9 +2,6 @@
 #include <iostream>
 #include <xcx/tools.hpp>
 namespace fs = std::filesystem;
-void hello_from_build() {
-  std::cout << "We are building your project !!! Dont worry";
-}
 
 void _check_build(fs::path prj_path) {
   fs::path build_path = prj_path / "build";
