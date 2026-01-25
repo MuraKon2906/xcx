@@ -16,6 +16,7 @@ private:
   void _write_to_cmake();
   void _wrtite_to_toml();
   void _init_git();
+  void msg_build_once();
 
 public:
   BasicProject(std::string prjname);

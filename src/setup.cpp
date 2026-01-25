@@ -7,6 +7,7 @@
 #define BLUE "\033[32m"
 #define CYAN "\033[0;36m"
 #define RED "\x1b[31m"
+#define GREEN "\033[32m"
 
 #include "xcx/setup.hpp"
 #include <filesystem>
@@ -28,6 +29,7 @@ BasicProject::BasicProject(std::string prjname) : prj_name(prjname) {
   _write_to_cmake();
   _wrtite_to_toml();
   _init_git();
+  msg_build_once();
 }
 
 bool BasicProject::_create_prj_src(std::string name) {
@@ -139,4 +141,10 @@ void BasicProject::_init_git() {
   std::string cmd =
       "cd \"" + prj_name + "\" && git init -b main > /dev/null 2>&1";
   std::system(cmd.c_str());
+}
+
+void BasicProject::msg_build_once() {
+  std::cout << GREEN << "\n \n ✔ Project is ready!" << RESET << std::endl;
+  std::cout << YELLOW << "   Build it once with: " << BLUE << "cd " << prj_name
+            << " && xcx build" << RESET << std::endl;
 }
