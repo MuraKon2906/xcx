@@ -7,10 +7,23 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # -------------------------------
-# 3rd party library
+# Fetch 3rd party libraries
 # -------------------------------
-add_subdirectory(include/external/fmt)
-add_subdirectory(include/external/tomlpp)
+include(FetchContent)
+
+FetchContent_Declare(
+    fmt
+    GIT_REPOSITORY https://github.com/fmtlib/fmt.git
+    GIT_TAG 10.2.1
+)
+
+FetchContent_Declare(
+    tomlplusplus
+    GIT_REPOSITORY https://github.com/marzer/tomlplusplus.git
+    GIT_TAG v3.4.0
+)
+
+FetchContent_MakeAvailable(fmt tomlplusplus)
 
 # -------------------------------
 # Your executable
@@ -27,7 +40,8 @@ target_include_directories(${PROJECT_NAME}
 )
 
 target_link_libraries(${PROJECT_NAME}
-    PRIVATE fmt::fmt
+    PRIVATE
+        fmt::fmt
         tomlplusplus::tomlplusplus
 )
 
