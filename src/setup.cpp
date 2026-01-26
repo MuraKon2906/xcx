@@ -13,6 +13,7 @@
 #include <filesystem>
 #include <iostream>
 #include <string>
+#include <toml++/toml.h>
 #include <vector>
 
 namespace fs = std::filesystem;
@@ -47,7 +48,13 @@ bool BasicProject::_create_prj_src(std::string name) {
 
 void BasicProject::_create_sub_folders() {
   std::cout << "Project Type : " << YELLOW << "Basic" << RESET;
-  std::vector<std::string> sub_folders = {"include", "src", "build"};
+  std::string prj_headers = "include/" + prj_name;
+  std::vector<std::string> sub_folders = {
+      prj_headers,
+      "src",
+      "build",
+
+  };
   fs::path src_path = fs::path(prj_name);
   for (auto dirs : sub_folders) {
     fs::path sub_folder_path = fs::path(src_path / dirs);
@@ -72,12 +79,16 @@ void BasicProject::_write_to_main() {
 }
 void BasicProject::_write_to_core() {
   fs::path prj_path = prj_name;
+
   std::string core_content =
       "#include <iostream>\n"
-      "#include \"core.hpp\"\n\n"
+      "#include \"" +
+      prj_name +
+      "/core.hpp\"\n\n"
       "void hello_from_core() {\n"
       "    std::cout << \"Hello from core\" << std::endl;\n"
       "}\n";
+
   std::ofstream core_cpp(prj_path / "src/core.cpp");
   core_cpp << core_content;
   core_cpp.close();
@@ -87,7 +98,8 @@ void BasicProject::_write_to_core_hpp() {
                                  "void hello_from_core();\n";
 
   fs::path prj_path = prj_name;
-  std::ofstream core_hpp(prj_path / "include/core.hpp");
+  fs::path include_headers = "include/" + prj_name + "/core.hpp";
+  std::ofstream core_hpp(prj_path / include_headers);
 
   core_hpp << core_hpp_content;
   core_hpp.close();
