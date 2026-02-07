@@ -8,13 +8,17 @@ std::string AddLibs::link = "";
 namespace cli {
 
 // Color helpers
-inline auto info() { return fmt::fg(fmt::color::cyan) | fmt::emphasis::bold; }
 
-inline auto success() {
-  return fmt::fg(fmt::color::green) | fmt::emphasis::bold;
+inline auto brand() {
+  return fmt::fg(fmt::color::steel_blue) | fmt::emphasis::bold;
 }
+inline auto info() { return fmt::fg(fmt::color::cornflower_blue); }
 
-inline auto error() { return fmt::fg(fmt::color::red) | fmt::emphasis::bold; }
+inline auto success() { return fmt::fg(fmt::color::green); }
+
+inline auto error() {
+  return fmt::fg(fmt::color::indian_red) | fmt::emphasis::bold;
+}
 
 inline auto highlight() {
   return fmt::fg(fmt::color::rebecca_purple) | fmt::emphasis::bold;
@@ -23,7 +27,7 @@ inline auto highlight() {
 } // namespace cli
 
 void AddLibs::add_libraries() {
-  fmt::print(fmt::fg(fmt::color::light_cyan), "xcx\n---\n");
+  fmt::print(cli::brand(), "xcx\n---\n");
   fmt::print(cli::info(), "[INFO] ");
   fmt::print("Adding dependency...\n");
 

@@ -1,65 +1,150 @@
+#include <chrono>
 #include <cstdlib>
 #include <filesystem>
-#include <iostream>
+#include <string>
 #include <thread>
+
+#include <fmt/color.h>
+#include <fmt/core.h>
+
 #include <toml++/toml.h>
 #include <xcx/tools.hpp>
 
-// Color macros
-#define RESET "\033[0m"
-#define BOLD "\033[1m"
-#define RED "\033[31m"
-#define GREEN "\033[32m"
-#define YELLOW "\033[33m"
-#define BLUE "\033[34m"
-#define CYAN "\033[36m"
+namespace cli {
+
+// Text
+inline auto text() { return fmt::fg(fmt::color::white); }
+
+// Status
+inline auto info() { return fmt::fg(fmt::color::cornflower_blue); }
+
+inline auto success() { return fmt::fg(fmt::color::sea_green); }
+
+inline auto warning() { return fmt::fg(fmt::color::orange); }
+
+inline auto error() {
+  return fmt::fg(fmt::color::indian_red) | fmt::emphasis::bold;
+}
+
+// Branding
+inline auto brand() {
+  return fmt::fg(fmt::color::steel_blue) | fmt::emphasis::bold;
+}
+
+inline auto highlight() {
+  return fmt::fg(fmt::color::white) | fmt::emphasis::bold;
+}
+
+// Tags
+inline auto tag_info() {
+  return fmt::fg(fmt::color::cornflower_blue) | fmt::emphasis::bold;
+}
+
+inline auto tag_success() {
+  return fmt::fg(fmt::color::sea_green) | fmt::emphasis::bold;
+}
+
+inline auto tag_warn() {
+  return fmt::fg(fmt::color::orange) | fmt::emphasis::bold;
+}
+
+inline auto tag_error() {
+  return fmt::fg(fmt::color::indian_red) | fmt::emphasis::bold;
+}
+
+} // namespace cli
+
+using namespace std::chrono_literals;
+
+// --------------------------------------------------
+// Build
+// --------------------------------------------------
 
 PrjBuild::PrjBuild() {
-  std::cout << BOLD << CYAN << "\n[XCX] Build System\n" << RESET;
+
+  fmt::print(cli::brand(), "xcx\n---");
+
+  fmt::print("\n");
+
+  fmt::print(cli::tag_info(), "[INFO] ");
+  fmt::print(cli::text(), "Starting build\n");
 
   if (!_is_build()) {
-    std::cout << RED << "✖ Build directory not found. Aborting.\n" << RESET;
+
+    fmt::print(cli::tag_error(), "[ERROR]  ");
+    fmt::print(cli::text(), "Build directory not found\n");
+
     return;
   }
 
   _cmake_setup();
   _create_binaries();
 
-  std::cout << GREEN << "\n✔ Build completed successfully.\n" << RESET;
+  fmt::print(cli::tag_success(), "[OK]   ");
+  fmt::print(cli::text(), "Build completed successfully\n");
 }
 
 bool PrjBuild::_is_build() { return std::filesystem::is_directory("build"); }
 
 void PrjBuild::_cmake_setup() {
-  std::cout << BLUE << "\n➤ Configuring build system...\n" << RESET;
+
+  fmt::print(cli::tag_info(), "[INFO] ");
+  fmt::print(cli::text(), "Configuring project\n");
+
   std::system("cmake -S . -B build");
 }
 
 void PrjBuild::_create_binaries() {
-  std::cout << YELLOW << "\n➤ Compiling project...\n" << RESET;
+
+  fmt::print(cli::tag_info(), "[INFO] ");
+  fmt::print(cli::text(), "Compiling sources\n");
+
   std::system("cd build && cmake --build .");
 }
 
-// PrjRun Implementation
+// --------------------------------------------------
+// Run
+// --------------------------------------------------
+
 PrjRun::PrjRun() : PrjBuild() {
+
   if (!_is_build()) {
     return;
   }
+
   _run_binaries();
 }
 
 void PrjRun::_run_binaries() {
-  std::cout << BOLD << BLUE << "\n➤ Running target" << RESET;
+
+  fmt::print(cli::tag_info(), "[INFO] ");
+  fmt::print(cli::text(), "Running target");
+
   for (int i = 0; i < 3; ++i) {
-    std::cout << "." << std::flush;
-    std::this_thread::sleep_for(std::chrono::milliseconds(250));
+    fmt::print(".");
+    std::this_thread::sleep_for(250ms);
   }
-  std::cout << "\n" << RESET;
+
+  fmt::print("\n");
+
   if (!std::filesystem::exists("Config.toml")) {
-    std::cout << "XCX : Config.toml not found";
+
+    fmt::print(cli::tag_error(), "[ERROR]  ");
+    fmt::print(cli::text(), "Config.toml not found\n");
+
+    return;
   }
+
   auto config = toml::parse_file("Config.toml");
+
   std::string prj_name = config["project"]["name"].value_or("dumdum");
+
   std::string cmd = "cd build && ./" + prj_name;
+
+  fmt::print(cli::tag_info(), "[INFO] ");
+  fmt::print(cli::highlight(), "Executing: {}\n", prj_name);
+
+  fmt::print(cli::text(), "================================\n");
+
   std::system(cmd.c_str());
 }
