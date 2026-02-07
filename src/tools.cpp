@@ -142,18 +142,13 @@ PrjRun::PrjRun() : PrjBuild() {
 void PrjRun::_run_binaries() {
 
   fmt::print(cli::tag_info(), "[INFO] ");
-  fmt::print(cli::text(), "Running target");
 
-  for (int i = 0; i < 3; ++i) {
-    fmt::print(".");
-    std::this_thread::sleep_for(250ms);
-  }
-
-  fmt::print("\n");
+  fmt::print(cli::text(), "Running target \n");
 
   if (!std::filesystem::exists("Config.toml")) {
 
     fmt::print(cli::tag_error(), "[ERROR]  ");
+
     fmt::print(cli::text(), "Config.toml not found\n");
 
     return;
@@ -165,10 +160,7 @@ void PrjRun::_run_binaries() {
 
   std::string cmd = "cd build && ./" + prj_name;
 
-  fmt::print(cli::tag_info(), "[INFO] ");
-  fmt::print(cli::highlight(), "Executing: {}\n", prj_name);
-
-  fmt::print(cli::text(), "================================\n");
+  fmt::print(cli::text(), "================================\n\n");
 
   std::system(cmd.c_str());
 }
