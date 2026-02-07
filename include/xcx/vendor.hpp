@@ -7,4 +7,5 @@ public:
   static std::string link;
 
 private:
+  static bool _check_config_toml();
 };
