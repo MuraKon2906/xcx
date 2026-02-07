@@ -1,3 +1,4 @@
+#include "xcx/vendor.hpp"
 #define RESET "\033[0m"
 #define RED "\033[31m"
 #define GREEN "\033[32m"
@@ -8,8 +9,12 @@
 
 #include "iostream"
 #include "xcx/setup.hpp"
+#include "xcx/vendor.hpp"
+#include <fmt/color.h>
+#include <fmt/core.h>
 #include <unordered_map>
 #include <xcx/tools.hpp>
+#include <xcx/vendor.hpp>
 
 enum Comms { init = 1, run = 2, build, add, help }; // commands avaliable
 int main(int argc, char *argv[]) {
@@ -52,7 +57,13 @@ int main(int argc, char *argv[]) {
   }
 
   case 4:
-    std::cout << "add libs ";
+    if (argc < 3) {
+      fmt::print("XCX ERROR : Github link of the dependency not provided !!");
+      break;
+    }
+    AddLibs::link = argv[2];
+
+    AddLibs::add_libraries();
     break;
   case 5: {
     std::cout << "\nXCX - v.0.1\n";

@@ -32,6 +32,7 @@ add_executable(${PROJECT_NAME}
     src/main.cpp
     src/setup.cpp
     src/tools.cpp
+    src/vendor.cpp
 )
 
 target_include_directories(${PROJECT_NAME}
