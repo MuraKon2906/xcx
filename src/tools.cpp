@@ -111,7 +111,7 @@ void PrjBuild::_create_binaries() {
 
   PrjBuild::target_status_code = std::system("cd build && cmake --build .");
   if (target_status_code != 0) {
-    fmt::print(cli::tag_error(), "[ERROR]");
+    fmt::print(cli::tag_error(), "[ERROR] ");
     fmt::print(
         cli::text(),
         "Error: Build failed. Compilation did not complete successfully.\n");
@@ -129,8 +129,8 @@ void PrjBuild::_create_binaries() {
 
 PrjRun::PrjRun() : PrjBuild() {
 
-  if (!_is_build() || target_status_code != 0) {
-    fmt::print(cli::tag_error(), "[ERROR]");
+  if (!_is_build() || target_status_code != 0 || cmake_status_code != 0) {
+    fmt::print(cli::tag_error(), "[ERROR] ");
     fmt::print(cli::text(), "Target couldn't be built\n");
 
     return;
