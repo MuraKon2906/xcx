@@ -1,6 +1,7 @@
 #include <chrono>
 #include <cstdlib>
 #include <filesystem>
+#include <iostream>
 #include <string>
 #include <thread>
 
@@ -59,7 +60,7 @@ using namespace std::chrono_literals;
 // --------------------------------------------------
 // Build
 // --------------------------------------------------
-
+int PrjBuild::target_status_code = 0;
 PrjBuild::PrjBuild() {
 
   fmt::print(cli::brand(), "xcx\n---");
@@ -99,7 +100,7 @@ void PrjBuild::_create_binaries() {
   fmt::print(cli::tag_info(), "[INFO] ");
   fmt::print(cli::text(), "Compiling sources\n");
 
-  std::system("cd build && cmake --build .");
+  PrjBuild::target_status_code = std::system("cd build && cmake --build .");
 }
 
 // --------------------------------------------------
@@ -108,7 +109,10 @@ void PrjBuild::_create_binaries() {
 
 PrjRun::PrjRun() : PrjBuild() {
 
-  if (!_is_build()) {
+  if (!_is_build() || target_status_code != 0) {
+    fmt::print(cli::tag_error(), "[ERROR]  ");
+    fmt::print(cli::text(), "Build Failed. Target couldn't be built\n");
+
     return;
   }
 

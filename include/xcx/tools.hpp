@@ -5,6 +5,7 @@ class PrjBuild {
 public:
   PrjBuild();
 
+  static int target_status_code; // checks if target is built or not
 protected:
   bool _is_build();
 
