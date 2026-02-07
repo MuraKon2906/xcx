@@ -6,6 +6,7 @@ public:
   PrjBuild();
 
   static int target_status_code; // checks if target is built or not
+  static int cmake_status_code;  // build files
 protected:
   bool _is_build();
 

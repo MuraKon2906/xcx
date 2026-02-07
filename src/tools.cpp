@@ -60,7 +60,10 @@ using namespace std::chrono_literals;
 // --------------------------------------------------
 // Build
 // --------------------------------------------------
+
 int PrjBuild::target_status_code = 0;
+int PrjBuild::cmake_status_code = 0;
+
 PrjBuild::PrjBuild() {
 
   fmt::print(cli::brand(), "xcx\n---");
@@ -80,9 +83,6 @@ PrjBuild::PrjBuild() {
 
   _cmake_setup();
   _create_binaries();
-
-  fmt::print(cli::tag_success(), "[OK]   ");
-  fmt::print(cli::text(), "Build completed successfully\n");
 }
 
 bool PrjBuild::_is_build() { return std::filesystem::is_directory("build"); }
@@ -92,15 +92,35 @@ void PrjBuild::_cmake_setup() {
   fmt::print(cli::tag_info(), "[INFO] ");
   fmt::print(cli::text(), "Configuring project\n");
 
-  std::system("cmake -S . -B build");
+  PrjBuild::cmake_status_code = std::system("cmake -S . -B build");
 }
 
 void PrjBuild::_create_binaries() {
+  if (cmake_status_code != 0) {
+
+    fmt::print(cli::tag_error(), "[ERROR]  ");
+    fmt::print(cli::text(),
+               "Error: Could not generate CMake build system files. Please "
+               "check your project configuration.\n");
+
+    return;
+  }
 
   fmt::print(cli::tag_info(), "[INFO] ");
   fmt::print(cli::text(), "Compiling sources\n");
 
   PrjBuild::target_status_code = std::system("cd build && cmake --build .");
+  if (target_status_code != 0) {
+    fmt::print(cli::tag_error(), "[ERROR]");
+    fmt::print(
+        cli::text(),
+        "Error: Build failed. Compilation did not complete successfully.\n");
+
+    return;
+  }
+
+  fmt::print(cli::tag_success(), "[OK]   ");
+  fmt::print(cli::text(), "Build completed successfully\n");
 }
 
 // --------------------------------------------------
@@ -110,8 +130,8 @@ void PrjBuild::_create_binaries() {
 PrjRun::PrjRun() : PrjBuild() {
 
   if (!_is_build() || target_status_code != 0) {
-    fmt::print(cli::tag_error(), "[ERROR]  ");
-    fmt::print(cli::text(), "Build Failed. Target couldn't be built\n");
+    fmt::print(cli::tag_error(), "[ERROR]");
+    fmt::print(cli::text(), "Target couldn't be built\n");
 
     return;
   }
